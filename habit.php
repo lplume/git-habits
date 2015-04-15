@@ -6,13 +6,16 @@ use mikehaertl\shellcommand\Command;
 
 $dir = $argv[1];
 
-$command = new Command("git --git-dir $dir/.git log --pretty=\"%cd\" | cut -d' ' -f4 | cut -d: -f1 | sort -n | uniq -c");
+$merges = $argv[2] ? " --merges " : " ";
+
+$command = new Command("git --git-dir $dir/.git log$merges--pretty=\"%cd\" | cut -d' ' -f4 | cut -d: -f1 | sort -n | uniq -c");
 
 if ($command->execute()) {
     $out = $command->getOutput();
 } else {
     echo $command->getError();
     $exitCode = $command->getExitCode();
+    die;
 }
 
 $tmp = explode("\n", preg_replace(['/[ ]{5,6}/', '/([0-9])+ /'], ['', '$1,'], $out));
