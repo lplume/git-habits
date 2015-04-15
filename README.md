@@ -11,6 +11,6 @@ you need composer to install a simple dependency.
 
 composer install
 
-php habit.php <path-to-git-repos> <merges>
+php habit.php path-to-git-repos [merges]
 
 merges is default false, if true it add --merges option
