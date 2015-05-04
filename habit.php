@@ -6,9 +6,11 @@ use mikehaertl\shellcommand\Command;
 
 $dir = $argv[1];
 
-$merges = $argv[2] ? " --merges " : " ";
+$committer = $argv[2];
 
-$command = new Command("git --git-dir $dir/.git log$merges--pretty=\"%cd\" | cut -d' ' -f4 | cut -d: -f1 | sort -n | uniq -c");
+$merges = $argv[3] ? " --merges " : " ";
+
+$command = new Command("git --git-dir $dir/.git log --committer=$committer $merges--pretty=\"%cd\" | cut -d' ' -f4 | cut -d: -f1 | sort -n | uniq -c");
 
 if ($command->execute()) {
     $out = $command->getOutput();
